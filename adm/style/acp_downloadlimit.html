@@ -1,0 +1,56 @@
+{% INCLUDE 'overall_header.html' %}
+
+<div id="unique_downloadlimit"></div>
+
+<h1>{{ lang('ACP_DOWNLOADLIMIT_TITLE') }}</h1>
+
+<p><img src="https://img.shields.io/badge/{{ lang('Version') }}-{{ DOWNLOADLIMIT_VERSION }}-green.svg?style=plastic" /></p>
+
+<form id="acp_downloadlimit" method="post" action="{{ U_ACTION }}">
+	<fieldset>
+		<legend>{{ lang('ACP_DOWNLOADLIMIT_SETTINGS') }}</legend>
+		<dl>
+			<dt>
+				<label for="downloadlimit_allow">{{ lang('DOWNLOADLIMIT_ALLOW') }}{{ lang('COLON') }}</label><br />
+				<span>{{ lang('DOWNLOADLIMIT_ALLOW_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<label><input type="radio" id="downloadlimit_allow" class="radio" name="downloadlimit_allow" value="1"{% if DOWNLOADLIMIT_ALLOW %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="downloadlimit_allow" value="0"{% if not DOWNLOADLIMIT_ALLOW %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>{{ lang('DOWNLOADLIMIT_TIME_VALUE') }}{{ lang('COLON') }}</label><br />{{ lang('DOWNLOADLIMIT_TIME_VALUE_EXPLAIN') }}
+			</dt>
+			<dd>
+				<input type="number" name="downloadlimit_gc" value="{{ DOWNLOADLIMIT_GC }}" size="4" min="1" title="{{ lang('DOWNLOADLIMIT_TIME_VALUE') }}" style="text-align:center;" /> {{ DOWNLOADLIMIT_HOURS }}
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>{{ lang('DOWNLOADLIMIT_POSTS') }}{{ lang('COLON') }}</label><br />{{ lang('DOWNLOADLIMIT_POSTS_EXPLAIN') }}
+			</dt>
+			<dd>
+				<input type="number" name="downloadlimit_posts" value="{{ DOWNLOADLIMIT_POSTS }}" size="4" min="0" title="{{ lang('DOWNLOADLIMIT_POSTS') }}" style="text-align:center;" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>{{ lang('DOWNLOADLIMIT_GROUP_EXCEPTIONS') }}{{ lang('COLON') }}</label><br /><span>{{ lang('DOWNLOADLIMIT_GROUP_EXCEPTIONS_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<select name="downloadlimit_group_exceptions[]" size="10" multiple="multiple">
+				{{ DOWNLOADLIMIT_GROUP_EXCEPTIONS }}
+				</select>
+			</dd>
+		</dl>
+	</fieldset>
+	<fieldset class="submit-buttons">
+		<legend>{{ lang('SUBMIT') }}</legend>
+		<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />
+	</fieldset>
+	{{ S_FORM_TOKEN }}
+</form>
+
+{% INCLUDE 'overall_footer.html' %}

@@ -1,0 +1,10 @@
+{% if S_DOWNLOADLIMIT_MESSAGE_TRUE %}
+<span class="downloadlimit-green">
+	{{ lang('DOWNLOADLIMIT_COUNT') }}{{ lang('COLON') }} {{ DOWNLOADLIMIT_MESSAGE }}
+</span>
+{% endif %}
+{% if S_DOWNLOADLIMIT_MESSAGE_REACHED %}
+<span class="downloadlimit-red">
+	{{ lang('DOWNLOADLIMIT_COUNT') }}{{ lang('COLON') }} {{ lang('DOWNLOADLIMIT_REACHED') }}
+</span>
+{% endif %}

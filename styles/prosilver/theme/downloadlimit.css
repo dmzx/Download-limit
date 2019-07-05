@@ -1,0 +1,38 @@
+span.downloadlimit-green {
+	background-image: none;
+	border-right-width: 0;
+	border-radius: 4px 0 0 4px;
+	float: left;
+	height: 24px;
+	padding: 3px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	border: solid 1px #999999;
+    border-radius: 8px;
+    background-color: #e5ffdf;
+    border-color: #43a347;
+    color: #043300;
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+	font-size: 1.1em;
+}
+
+span.downloadlimit-red {
+	background-image: none;
+	border-right-width: 0;
+	border-radius: 4px 0 0 4px;
+	float: left;
+	height: 24px;
+	padding: 3px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	border: solid 1px #999999;
+    border-radius: 8px;
+    background-color: #ffdfdf;
+    border-color: #a30004;
+    color: #043300;
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+	font-size: 1.1em;
+}
+
