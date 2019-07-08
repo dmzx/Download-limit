@@ -94,7 +94,8 @@ class downloadlimit_prune extends base
 		{
 			$sql = 'DELETE FROM ' . $this->downloadlimit_table . '
 				WHERE down_date < ' . $inactive_time;
-			$this->db->sql_query($sql);
+			$result = $this->db->sql_query($sql);
+			$this->db->sql_freeresult($result);
 		}
 		$this->config->set('downloadlimit_last_gc', time());
 	}

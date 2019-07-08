@@ -10,25 +10,27 @@
 namespace dmzx\downloadlimit\event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use phpbb\config\config;
+use phpbb\template\template;
+use phpbb\user;
+use phpbb\db\driver\driver_interface;
+use phpbb\request\request_interface;
 
 class listener implements EventSubscriberInterface
 {
-	/** @var \phpbb\config\config */
+	/** @var config */
 	protected $config;
 
-	/** @var \phpbb\template\template */
+	/** @var template */
 	protected $template;
 
-	/** @var \phpbb\user */
+	/** @var user */
 	protected $user;
 
-	/** @var \phpbb\db\driver\driver_interface */
+	/** @var driver_interface */
 	protected $db;
 
-	/** @var \phpbb\controller\helper */
-	protected $controller_helper;
-
-	/** @var \phpbb\request\request */
+	/** @var request_interface */
 	protected $request;
 
 	/** @var string */
@@ -47,24 +49,22 @@ class listener implements EventSubscriberInterface
 	/**
 	* Constructor
 	*
-	* @param \phpbb\config\config				$config
-	* @param \phpbb\template\template			$template
-	* @param \phpbb\user						$user
-	* @param \phpbb\db\driver\driver_interface	$db
-	* @param \phpbb\controller\helper			$controller_helper
-	* @param \phpbb\request\request			 	$request
-	* @param string								$root_path
-	* @param string								$php_ext
-	* @param string			 					$downloadlimit_table
+	* @param config					$config
+	* @param template				$template
+	* @param user					$user
+	* @param driver_interface		$db
+	* @param request_interface		$request
+	* @param string					$root_path
+	* @param string					$php_ext
+	* @param string			 		$downloadlimit_table
 	*
 	*/
 	public function __construct(
-		\phpbb\config\config $config,
-		\phpbb\template\template $template,
-		\phpbb\user $user,
-		\phpbb\db\driver\driver_interface $db,
-		\phpbb\controller\helper $controller_helper,
-		\phpbb\request\request $request,
+		config $config,
+		template $template,
+		user $user,
+		driver_interface $db,
+		request_interface $request,
 		$root_path,
 		$php_ext,
 		$downloadlimit_table
@@ -74,7 +74,6 @@ class listener implements EventSubscriberInterface
 		$this->template 				= $template;
 		$this->user 					= $user;
 		$this->db 						= $db;
-		$this->controller_helper 		= $controller_helper;
 		$this->request 					= $request;
 		$this->root_path 				= $root_path;
 		$this->php_ext 					= $php_ext;
@@ -106,7 +105,7 @@ class listener implements EventSubscriberInterface
 	{
 		$block_array = $event['block_array'];
 
-		if ($this->get_dlrecordcount() >= $this->config['downloadlimit_posts'])
+		if ($this->get_dlrecordcount() >= $this->config['downloadlimit_posts'] && in_array($event['attachment']['extension'], $this->allowed_extensions()))
 		{
 			$block_array['S_FILE'] = false;
 
@@ -120,7 +119,8 @@ class listener implements EventSubscriberInterface
 
 	public function download_file_send_to_browser_before($event)
 	{
-		if ($this->user->data['is_registered'])
+
+		if ($this->user->data['is_registered'] && in_array($event['attachment']['extension'], $this->allowed_extensions()))
 		{
 			$sql = 'SELECT u.*
 				FROM ' . USERS_TABLE . ' u
@@ -171,7 +171,7 @@ class listener implements EventSubscriberInterface
 				}
 			}
 
-			if ($this->get_dlrecordcount() >= $this->config['downloadlimit_posts'])
+			if (($this->get_dlrecordcount() - 1) >= $this->config['downloadlimit_posts'])
 			{
 				$message = $this->user->lang('DOWNLOADLIMIT_MESSAGE', $this->config['downloadlimit_posts'], ($this->config['downloadlimit_gc'] / 3600)) . '<br /><br /><a href="' . append_sid("{$this->root_path}index.{$this->php_ext}") . '">&laquo; ' . $this->user->lang['DOWNLOADLIMIT_RETURN_INDEX'] . '</a>';
 				trigger_error($message);
@@ -194,7 +194,7 @@ class listener implements EventSubscriberInterface
 	{
 		if ($this->config['downloadlimit_allow'] && ($this->get_dlrecordcount() > 0))
 		{
-			if ($this->get_dlrecordcount() == $this->config['downloadlimit_posts'])
+			if ($this->get_dlrecordcount() >= $this->config['downloadlimit_posts'])
 			{
 				$this->template->assign_vars(array(
 					'S_DOWNLOADLIMIT_MESSAGE_REACHED'	=> true,
@@ -221,5 +221,30 @@ class listener implements EventSubscriberInterface
 		$this->db->sql_freeresult($result);
 
 		return $dlrecordcount;
+	}
+
+	private function allowed_extensions()
+	{
+		// Here you can add additional extensions
+		// Always use lower and upper case extensions
+		$allowed_extensions = array();
+
+		// Archive extenstions
+		$allowed_extensions[] = 'zip';
+		$allowed_extensions[] = 'ZIP';
+		$allowed_extensions[] = 'rar';
+		$allowed_extensions[] = 'RAR';
+		$allowed_extensions[] = '7z';
+		$allowed_extensions[] = '7Z';
+		$allowed_extensions[] = 'ace';
+		$allowed_extensions[] = 'ACE';
+		$allowed_extensions[] = 'gtar';
+		$allowed_extensions[] = 'GTAR';
+		$allowed_extensions[] = 'gz';
+		$allowed_extensions[] = 'GZ';
+		$allowed_extensions[] = 'tar';
+		$allowed_extensions[] = 'TAR';
+
+		return $allowed_extensions;
 	}
 }
