@@ -93,7 +93,7 @@ class downloadlimit_prune extends base
 		if ($allow_users)
 		{
 			$sql = 'DELETE FROM ' . $this->downloadlimit_table . '
-				WHERE down_date < ' . $inactive_time;
+				WHERE down_date < ' . (int) $inactive_time;
 			$result = $this->db->sql_query($sql);
 			$this->db->sql_freeresult($result);
 		}
