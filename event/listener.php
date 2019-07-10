@@ -15,6 +15,7 @@ use phpbb\template\template;
 use phpbb\user;
 use phpbb\db\driver\driver_interface;
 use phpbb\request\request_interface;
+use phpbb\config\db_text;
 
 class listener implements EventSubscriberInterface
 {
@@ -32,6 +33,9 @@ class listener implements EventSubscriberInterface
 
 	/** @var request_interface */
 	protected $request;
+
+	/** @var db_text */
+	protected $config_text;
 
 	/** @var string */
 	protected $root_path;
@@ -54,6 +58,7 @@ class listener implements EventSubscriberInterface
 	* @param user					$user
 	* @param driver_interface		$db
 	* @param request_interface		$request
+	* @param db_text				$config_text
 	* @param string					$root_path
 	* @param string					$php_ext
 	* @param string			 		$downloadlimit_table
@@ -65,6 +70,7 @@ class listener implements EventSubscriberInterface
 		user $user,
 		driver_interface $db,
 		request_interface $request,
+		db_text $config_text,
 		$root_path,
 		$php_ext,
 		$downloadlimit_table
@@ -75,6 +81,7 @@ class listener implements EventSubscriberInterface
 		$this->user 					= $user;
 		$this->db 						= $db;
 		$this->request 					= $request;
+		$this->config_text 				= $config_text;
 		$this->root_path 				= $root_path;
 		$this->php_ext 					= $php_ext;
 		$this->downloadlimit_table 		= $downloadlimit_table;
@@ -109,17 +116,22 @@ class listener implements EventSubscriberInterface
 		{
 			$block_array['S_FILE'] = false;
 
-			$this->template->assign_vars(array(
+			$this->template->assign_vars([
 				'S_FILE_NO' 			=> true,
 				'DOWNLOADLIMIT_MESSAGE' => $this->user->lang('DOWNLOADLIMIT_MESSAGE', $this->config['downloadlimit_posts'], ($this->config['downloadlimit_gc'] / 3600)),
-			));
+			]);
+		}
+		else
+		{
+			$this->template->assign_vars([
+				'S_FILE_NO' 			=> false,
+			]);
 		}
 		$event['block_array'] = $block_array;
 	}
 
 	public function download_file_send_to_browser_before($event)
 	{
-
 		if ($this->user->data['is_registered'] && in_array($event['attachment']['extension'], $this->allowed_extensions()))
 		{
 			$sql = 'SELECT u.*
@@ -144,12 +156,12 @@ class listener implements EventSubscriberInterface
 
 				if (!$dlrecord)
 				{
-					$sql_ary = array(
+					$sql_ary = [
 						'user_id'					=> $this->user->data['user_id'],
 						'file_id'					=> $attach_id,
 						'downloadslog_counter_user'	=> 1,
 						'down_date'					=> time(),
-					);
+					];
 
 					$sql = 'INSERT INTO ' . $this->downloadlimit_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
 					$this->db->sql_query($sql);
@@ -158,10 +170,10 @@ class listener implements EventSubscriberInterface
 				{
 					$downloadslog_counter_user = $dlrecord['downloadslog_counter_user'] + 1;
 
-					$sql_ary = array(
+					$sql_ary = [
 						'downloadslog_counter_user'	=> $downloadslog_counter_user,
 						'down_date'					=> time(),
-					);
+					];
 
 					$sql_insert = 'UPDATE ' . $this->downloadlimit_table . '
 						SET	' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
@@ -183,10 +195,10 @@ class listener implements EventSubscriberInterface
 	{
 		if ($this->config['downloadlimit_allow'] && ($this->get_dlrecordcount() > 0))
 		{
-			$this->template->assign_vars(array(
+			$this->template->assign_vars([
 				'S_DOWNLOADLIMIT_MESSAGE_TRUE'	=> true,
 				'DOWNLOADLIMIT_MESSAGE'			=> $this->user->lang('DOWNLOADLIMIT_COUNTS', $this->get_dlrecordcount(), ($this->config['downloadlimit_gc'] / 3600)),
-			));
+			]);
 		}
 	}
 
@@ -196,17 +208,17 @@ class listener implements EventSubscriberInterface
 		{
 			if ($this->get_dlrecordcount() >= $this->config['downloadlimit_posts'])
 			{
-				$this->template->assign_vars(array(
+				$this->template->assign_vars([
 					'S_DOWNLOADLIMIT_MESSAGE_REACHED'	=> true,
 					'S_DOWNLOADLIMIT_MESSAGE_TRUE'		=> false,
-				));
+				]);
 			}
 			else
 			{
-				$this->template->assign_vars(array(
+				$this->template->assign_vars([
 					'S_DOWNLOADLIMIT_MESSAGE_TRUE'	=> true,
 					'DOWNLOADLIMIT_MESSAGE'			=> $this->user->lang('DOWNLOADLIMIT_COUNTS', $this->get_dlrecordcount(), ($this->config['downloadlimit_gc'] / 3600)),
-				));
+				]);
 			}
 		}
 	}
@@ -225,25 +237,13 @@ class listener implements EventSubscriberInterface
 
 	private function allowed_extensions()
 	{
-		// Here you can add additional extensions
-		// Always use lower and upper case extensions
-		$allowed_extensions = array();
+		$allowed_extensions = [];
 
-		// Archive extenstions
-		$allowed_extensions[] = 'zip';
-		$allowed_extensions[] = 'ZIP';
-		$allowed_extensions[] = 'rar';
-		$allowed_extensions[] = 'RAR';
-		$allowed_extensions[] = '7z';
-		$allowed_extensions[] = '7Z';
-		$allowed_extensions[] = 'ace';
-		$allowed_extensions[] = 'ACE';
-		$allowed_extensions[] = 'gtar';
-		$allowed_extensions[] = 'GTAR';
-		$allowed_extensions[] = 'gz';
-		$allowed_extensions[] = 'GZ';
-		$allowed_extensions[] = 'tar';
-		$allowed_extensions[] = 'TAR';
+		$allowed_extensions_list = $this->config_text->get_array([
+			'downloadlimit_ext',
+		]);
+
+		$allowed_extensions = explode(',', $allowed_extensions_list['downloadlimit_ext']);
 
 		return $allowed_extensions;
 	}

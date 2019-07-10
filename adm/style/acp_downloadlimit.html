@@ -32,9 +32,20 @@
 				<label>{{ lang('DOWNLOADLIMIT_POSTS') }}{{ lang('COLON') }}</label><br />{{ lang('DOWNLOADLIMIT_POSTS_EXPLAIN') }}
 			</dt>
 			<dd>
-				<input type="number" name="downloadlimit_posts" value="{{ DOWNLOADLIMIT_POSTS }}" size="4" min="0" title="{{ lang('DOWNLOADLIMIT_POSTS') }}" style="text-align:center;" />
+				<input type="number" name="downloadlimit_posts" value="{{ DOWNLOADLIMIT_POSTS }}" size="4" min="1" title="{{ lang('DOWNLOADLIMIT_POSTS') }}" style="text-align:center;" />
 			</dd>
 		</dl>
+
+		<dl>
+			<dt>
+				<label>{{ lang('DOWNLOADLIMIT_EXT') }}{{ lang('COLON') }}</label><br>
+				<span>{{ lang('DOWNLOADLIMIT_EXT_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<textarea name="downloadlimit_ext" rows="3" cols="30" style="width: 80%;">{{ DOWNLOADLIMIT_EXT }}</textarea>
+			</dd>
+		</dl>
+
 		<dl>
 			<dt>
 				<label>{{ lang('DOWNLOADLIMIT_GROUP_EXCEPTIONS') }}{{ lang('COLON') }}</label><br /><span>{{ lang('DOWNLOADLIMIT_GROUP_EXCEPTIONS_EXPLAIN') }}</span>

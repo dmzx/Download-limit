@@ -34,7 +34,7 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, [
-	'DOWNLOADLIMIT_MESSAGE'				=> 'Your download limit (%1$s) is reached within %2$s hour(s). You cannot download this attachment!',
+	'DOWNLOADLIMIT_MESSAGE'				=> 'Your download limit of (%1$s) is reached so downloads are disabled for %2$s hour(s). You cannot download this attachment!',
 	'DOWNLOADLIMIT_RETURN_INDEX'		=> 'Click here to return to the index',
 	'DOWNLOADLIMIT_COUNT'				=> 'Downloads',
 	'DOWNLOADLIMIT_COUNTS'				=> '%1$s last %2$s hour(s)',

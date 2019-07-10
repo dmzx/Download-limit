@@ -14,6 +14,7 @@ use phpbb\template\template;
 use phpbb\log\log_interface;
 use phpbb\user;
 use phpbb\request\request_interface;
+use phpbb\config\db_text;
 use phpbb\db\driver\driver_interface;
 
 class admin_controller
@@ -33,6 +34,9 @@ class admin_controller
 	/** @var request_interface */
 	protected $request;
 
+	/** @var db_text */
+	protected $config_text;
+
 	/** @var driver_interface */
 	protected $db;
 
@@ -47,6 +51,7 @@ class admin_controller
 	 * @param log_interface			$log
 	 * @param user					$user
 	 * @param request_interface		$request
+	 * @param db_text				$config_text
 	 * @param driver_interface		$db
 	 *
 	 */
@@ -56,6 +61,7 @@ class admin_controller
 		log_interface $log,
 		user $user,
 		request_interface $request,
+		db_text $config_text,
 		driver_interface $db
 	)
 	{
@@ -64,12 +70,23 @@ class admin_controller
 		$this->log 				= $log;
 		$this->user 			= $user;
 		$this->request 			= $request;
+		$this->config_text 		= $config_text;
 		$this->db				= $db;
 	}
 
 	public function display_options()
 	{
 		add_form_key('acp_downloadlimit');
+
+		$allowed_extensions_list = $this->config_text->get_array([
+			'downloadlimit_ext',
+		]);
+
+		$allowed_extensions_array = explode(',', trim($allowed_extensions_list['downloadlimit_ext']));
+
+		sort($allowed_extensions_array);
+
+		$downloadlimit_exts = implode(',', $allowed_extensions_array);
 
 		// Is the form being submitted to us?
 		if ($this->request->is_set_post('submit'))
@@ -121,17 +138,22 @@ class admin_controller
 			'DOWNLOADLIMIT_POSTS'				=> $this->config['downloadlimit_posts'],
 			'DOWNLOADLIMIT_VERSION'				=> $this->config['downloadlimit_version'],
 			'DOWNLOADLIMIT_GROUP_EXCEPTIONS' 	=> $downloadlimit_group_exceptions_options,
+			'DOWNLOADLIMIT_EXT'					=> $downloadlimit_exts,
 		));
 	}
 
 	protected function set_options()
 	{
 		$downloadlimit_group_exceptions = $this->request->variable('downloadlimit_group_exceptions', array(0 => 0));
+		$downloadlimit_ext = $this->request->variable('downloadlimit_ext', '', true);
 
 		$this->config->set('downloadlimit_allow', $this->request->variable('downloadlimit_allow', 1));
 		$this->config->set('downloadlimit_gc', (int) $this->request->variable('downloadlimit_gc', 0) * 3600);
 		$this->config->set('downloadlimit_posts', (int) $this->request->variable('downloadlimit_posts', ''));
 		$this->config->set('downloadlimit_group_exceptions', implode(',' ,$downloadlimit_group_exceptions));
+		$this->config_text->set_array([
+			'downloadlimit_ext'			=> $downloadlimit_ext,
+		]);
 	}
 
 	public function set_page_url($u_action)

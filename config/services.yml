@@ -9,6 +9,7 @@ services:
             - '@log'
             - '@user'
             - '@request'
+            - '@config_text'
             - '@dbal.conn'
     dmzx.downloadlimit.cron.task.core.downloadlimit:
         class: dmzx\downloadlimit\cron\downloadlimit_prune
@@ -32,6 +33,7 @@ services:
             - '@user'
             - '@dbal.conn'
             - '@request'
+            - '@config_text'
             - '%core.root_path%'
             - '%core.php_ext%'
             - '%dmzx.downloadlimit.table.downloadlimit%'
