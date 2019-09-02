@@ -225,14 +225,29 @@ class listener implements EventSubscriberInterface
 
 	private function get_dlrecordcount()
 	{
-		$sql = 'SELECT SUM(downloadslog_counter_user) AS dlrecordcount
-			FROM ' . $this->downloadlimit_table . '
-			WHERE user_id = ' . (int) $this->user->data['user_id'];
+		$sql = 'SELECT u.*
+			FROM ' . USERS_TABLE . ' u
+			WHERE ' . $this->db->sql_in_set('group_id', explode(',', $this->config['downloadlimit_group_exceptions']), true) . '
+			AND user_id = ' . (int) $this->user->data['user_id'];
 		$result = $this->db->sql_query($sql);
-		$dlrecordcount = (int) $this->db->sql_fetchfield('dlrecordcount');
+		$allow_users = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 
-		return $dlrecordcount;
+		if ($allow_users)
+		{
+			$sql = 'SELECT SUM(downloadslog_counter_user) AS dlrecordcount
+				FROM ' . $this->downloadlimit_table . '
+				WHERE user_id = ' . (int) $this->user->data['user_id'];
+			$result = $this->db->sql_query($sql);
+			$dlrecordcount = (int) $this->db->sql_fetchfield('dlrecordcount');
+			$this->db->sql_freeresult($result);
+
+			return $dlrecordcount;
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	private function allowed_extensions()
