@@ -3,8 +3,8 @@
 	"type": "phpbb-extension",
 	"description": "Download attachment limit.",
 	"homepage": "https://www.dmzx-web.net",
-	"version": "1.0.3",
-	"time": "2019-08-30",
+	"version": "1.0.4",
+	"time": "2019-12-05",
 	"keywords": [
 		"phpbb",
 		"extension",
@@ -29,7 +29,7 @@
 	"extra": {
 		"display-name": "Download limit",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.2.0,<3.3"
+			"phpbb/phpbb": ">=3.2.0,<4.4.0@dev"
 		},
 		"version-check": {
 			"host": "www.dmzx-web.net",

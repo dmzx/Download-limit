@@ -1,2 +1,2 @@
 parameters:
-    dmzx.downloadlimit.table.downloadlimit: %core.table_prefix%downloadlimit
+    dmzx.downloadlimit.table.downloadlimit: '%core.table_prefix%downloadlimit'

@@ -1,4 +1,8 @@
-## Changelog
+## Download limit Changelog
+
+### 1.0.4 - 2019-12-05
+
+- Code update for 3.3.x
 
 ### 1.0.3 - 2019-08-30
 
