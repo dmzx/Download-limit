@@ -1,6 +1,6 @@
 # Download Limit Extension
 
-[![Build Status](https://travis-ci.org/dmzx/Download-limit.svg?branch=master)](https://travis-ci.org/dmzx/Download-limit)
+[![Build Status](https://github.com/dmzx/Download-limit/workflows/Tests/badge.svg)](https://github.com/phpbb-extensions/dmzx/Download-limit)
 
 ## Install
 
