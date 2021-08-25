@@ -9,7 +9,9 @@
 
 namespace dmzx\downloadlimit\migrations;
 
-class downloadlimit_install extends \phpbb\db\migration\migration
+use phpbb\db\migration\migration;
+
+class downloadlimit_install extends migration
 {
 	public function update_data()
 	{

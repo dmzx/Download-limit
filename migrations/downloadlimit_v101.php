@@ -9,7 +9,9 @@
 
 namespace dmzx\downloadlimit\migrations;
 
-class downloadlimit_v101 extends \phpbb\db\migration\migration
+use phpbb\db\migration\migration;
+
+class downloadlimit_v101 extends migration
 {
 
 	static public function depends_on()
