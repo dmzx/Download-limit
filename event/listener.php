@@ -185,7 +185,7 @@ class listener implements EventSubscriberInterface
 
 			if (($this->get_dlrecordcount() - 1) >= $this->config['downloadlimit_posts'])
 			{
-				$message = $this->user->lang('DOWNLOADLIMIT_MESSAGE', $this->config['downloadlimit_posts'], ($this->config['downloadlimit_gc'] / 3600)) . '<br /><br /><a href="' . append_sid("{$this->root_path}index.{$this->php_ext}") . '">&laquo; ' . $this->user->lang['DOWNLOADLIMIT_RETURN_INDEX'] . '</a>';
+				$message = $this->user->lang('DOWNLOADLIMIT_MESSAGE', $this->config['downloadlimit_posts'], ($this->config['downloadlimit_gc'] / 3600)) . '<br><br><a href="' . append_sid("{$this->root_path}index.{$this->php_ext}") . '">&laquo; ' . $this->user->lang['DOWNLOADLIMIT_RETURN_INDEX'] . '</a>';
 				trigger_error($message);
 			}
 		}

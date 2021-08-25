@@ -46,7 +46,7 @@ $lang = array_merge($lang, [
 	'DOWNLOADLIMIT_POSTS_EXPLAIN'				=> 'Set download count for users. Default is 5.',
 	'DOWNLOADLIMIT_SAVED'						=> 'Download limit settings saved.',
 	'DOWNLOADLIMIT_GROUP_EXCEPTIONS'			=> 'Group exception(s)',
-	'DOWNLOADLIMIT_GROUP_EXCEPTIONS_EXPLAIN'	=> 'Exclude the groups here that not will be pruned.<br />Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and clicking.',
+	'DOWNLOADLIMIT_GROUP_EXCEPTIONS_EXPLAIN'	=> 'Exclude the groups here that not will be pruned.<br>Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and clicking.',
 	'DOWNLOADLIMIT_EXT'							=> 'Allowed extensions',
 	'DOWNLOADLIMIT_EXT_EXPLAIN'					=> 'Allowed extensions to include, separated by a comma (Example: 7z,ace,bz2,gtar,gz,rar,tar,tgz,torrent,zip)',
 ]);

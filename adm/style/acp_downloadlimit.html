@@ -11,7 +11,7 @@
 		<legend>{{ lang('ACP_DOWNLOADLIMIT_SETTINGS') }}</legend>
 		<dl>
 			<dt>
-				<label for="downloadlimit_allow">{{ lang('DOWNLOADLIMIT_ALLOW') }}{{ lang('COLON') }}</label><br />
+				<label for="downloadlimit_allow">{{ lang('DOWNLOADLIMIT_ALLOW') ~ lang('COLON') }}</label><br>
 				<span>{{ lang('DOWNLOADLIMIT_ALLOW_EXPLAIN') }}</span>
 			</dt>
 			<dd>
@@ -21,7 +21,7 @@
 		</dl>
 		<dl>
 			<dt>
-				<label>{{ lang('DOWNLOADLIMIT_TIME_VALUE') }}{{ lang('COLON') }}</label><br />{{ lang('DOWNLOADLIMIT_TIME_VALUE_EXPLAIN') }}
+				<label>{{ lang('DOWNLOADLIMIT_TIME_VALUE') ~ lang('COLON') }}</label><br>{{ lang('DOWNLOADLIMIT_TIME_VALUE_EXPLAIN') }}
 			</dt>
 			<dd>
 				<input type="number" name="downloadlimit_gc" value="{{ DOWNLOADLIMIT_GC }}" size="4" min="1" title="{{ lang('DOWNLOADLIMIT_TIME_VALUE') }}" style="text-align:center;" /> {{ DOWNLOADLIMIT_HOURS }}
@@ -29,7 +29,7 @@
 		</dl>
 		<dl>
 			<dt>
-				<label>{{ lang('DOWNLOADLIMIT_POSTS') }}{{ lang('COLON') }}</label><br />{{ lang('DOWNLOADLIMIT_POSTS_EXPLAIN') }}
+				<label>{{ lang('DOWNLOADLIMIT_POSTS') ~ lang('COLON') }}</label><br>{{ lang('DOWNLOADLIMIT_POSTS_EXPLAIN') }}
 			</dt>
 			<dd>
 				<input type="number" name="downloadlimit_posts" value="{{ DOWNLOADLIMIT_POSTS }}" size="4" min="0" title="{{ lang('DOWNLOADLIMIT_POSTS') }}" style="text-align:center;" />
@@ -38,7 +38,7 @@
 
 		<dl>
 			<dt>
-				<label>{{ lang('DOWNLOADLIMIT_EXT') }}{{ lang('COLON') }}</label><br>
+				<label>{{ lang('DOWNLOADLIMIT_EXT') ~ lang('COLON') }}</label><br>
 				<span>{{ lang('DOWNLOADLIMIT_EXT_EXPLAIN') }}</span>
 			</dt>
 			<dd>
@@ -48,7 +48,7 @@
 
 		<dl>
 			<dt>
-				<label>{{ lang('DOWNLOADLIMIT_GROUP_EXCEPTIONS') }}{{ lang('COLON') }}</label><br /><span>{{ lang('DOWNLOADLIMIT_GROUP_EXCEPTIONS_EXPLAIN') }}</span>
+				<label>{{ lang('DOWNLOADLIMIT_GROUP_EXCEPTIONS') ~ lang('COLON') }}</label><br><span>{{ lang('DOWNLOADLIMIT_GROUP_EXCEPTIONS_EXPLAIN') }}</span>
 			</dt>
 			<dd>
 				<select name="downloadlimit_group_exceptions[]" size="10" multiple="multiple">
