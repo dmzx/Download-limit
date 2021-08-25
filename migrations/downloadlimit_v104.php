@@ -13,7 +13,6 @@ use phpbb\db\migration\migration;
 
 class downloadlimit_v104 extends migration
 {
-
 	static public function depends_on()
 	{
 		return [
