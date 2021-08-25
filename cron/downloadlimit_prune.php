@@ -82,7 +82,7 @@ class downloadlimit_prune extends base
 			AND u.user_type = ' . USER_NORMAL;
 		$results = $this->db->sql_query($sql);
 
-		$allow_users = array();
+		$allow_users = [];
 
 		while ($row = $this->db->sql_fetchrow($results))
 		{

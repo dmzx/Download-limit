@@ -130,7 +130,7 @@ class admin_controller
 		}
 		$this->db->sql_freeresult($result);
 
-		$this->template->assign_vars(array(
+		$this->template->assign_vars([
 			'U_ACTION'							=> $this->u_action,
 			'DOWNLOADLIMIT_ALLOW'				=> $this->config['downloadlimit_allow'],
 			'DOWNLOADLIMIT_GC'			 		=> $this->config['downloadlimit_gc'] / 3600,
@@ -139,12 +139,12 @@ class admin_controller
 			'DOWNLOADLIMIT_VERSION'				=> $this->config['downloadlimit_version'],
 			'DOWNLOADLIMIT_GROUP_EXCEPTIONS' 	=> $downloadlimit_group_exceptions_options,
 			'DOWNLOADLIMIT_EXT'					=> $downloadlimit_exts,
-		));
+		]);
 	}
 
 	protected function set_options()
 	{
-		$downloadlimit_group_exceptions = $this->request->variable('downloadlimit_group_exceptions', array(0 => 0));
+		$downloadlimit_group_exceptions = $this->request->variable('downloadlimit_group_exceptions', [0 => 0]);
 		$downloadlimit_ext = $this->request->variable('downloadlimit_ext', '', true);
 
 		$this->config->set('downloadlimit_allow', $this->request->variable('downloadlimit_allow', 1));

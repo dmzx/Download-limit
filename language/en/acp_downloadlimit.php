@@ -38,10 +38,10 @@ $lang = array_merge($lang, [
 	'DOWNLOADLIMIT_ALLOW_EXPLAIN'				=> 'If this option is set to Yes, cron on users will be On.',
 	'DOWNLOADLIMIT_TIME_VALUE'					=> 'Set time period for prune/delete users',
 	'DOWNLOADLIMIT_TIME_VALUE_EXPLAIN'			=> 'This option will set the prune/delete timer. Default is 24 hours.',
-	'DOWNLOADLIMIT_HOURS'	=> array(
+	'DOWNLOADLIMIT_HOURS'	=> [
 		1 => 'Hour',
 		2 => 'Hours',
-	),
+	],
 	'DOWNLOADLIMIT_POSTS'						=> 'Set download count',
 	'DOWNLOADLIMIT_POSTS_EXPLAIN'				=> 'Set download count for users. Default is 5.',
 	'DOWNLOADLIMIT_SAVED'						=> 'Download limit settings saved.',

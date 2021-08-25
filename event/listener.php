@@ -89,22 +89,22 @@ class listener implements EventSubscriberInterface
 
 	static public function getSubscribedEvents()
 	{
-		return array(
+		return [
 			'core.user_setup'								=> 'load_language_on_setup',
 			'core.parse_attachments_modify_template_data' 	=> 'parse_attachments_modify_template_data',
 			'core.download_file_send_to_browser_before'		=> 'download_file_send_to_browser_before',
 			'core.memberlist_view_profile'					=> 'memberlist_view_profile',
 			'core.viewtopic_get_post_data'					=> 'viewtopic_get_post_data',
-		);
+		];
 	}
 
 	public function load_language_on_setup($event)
 	{
 		$lang_set_ext = $event['lang_set_ext'];
-		$lang_set_ext[] = array(
+		$lang_set_ext[] = [
 			'ext_name' => 'dmzx/downloadlimit',
 			'lang_set' => 'common',
-		);
+		];
 		$event['lang_set_ext'] = $lang_set_ext;
 	}
 
