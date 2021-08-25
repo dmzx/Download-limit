@@ -1,8 +1,8 @@
 imports:
-    - { resource: tables.yml }
+    - { resource: 'tables.yml' }
 services:
     dmzx.downloadlimit.admin.controller:
-        class: dmzx\downloadlimit\controller\admin_controller
+        class: 'dmzx\downloadlimit\controller\admin_controller'
         arguments:
             - '@config'
             - '@template'
@@ -12,7 +12,7 @@ services:
             - '@config_text'
             - '@dbal.conn'
     dmzx.downloadlimit.cron.task.core.downloadlimit:
-        class: dmzx\downloadlimit\cron\downloadlimit_prune
+        class: 'dmzx\downloadlimit\cron\downloadlimit_prune'
         arguments:
             - '@user'
             - '@config'
@@ -22,11 +22,11 @@ services:
             - '%core.php_ext%'
             - '%dmzx.downloadlimit.table.downloadlimit%'
         calls:
-            - [set_name, [cron.task.core.downloadlimit]]
+            - ['set_name', ['cron.task.core.downloadlimit']]
         tags:
-            - { name: cron.task }
+            - { name: 'cron.task' }
     dmzx.downloadlimit.listener:
-        class: dmzx\downloadlimit\event\listener
+        class: 'dmzx\downloadlimit\event\listener'
         arguments:
             - '@config'
             - '@template'
@@ -38,4 +38,4 @@ services:
             - '%core.php_ext%'
             - '%dmzx.downloadlimit.table.downloadlimit%'
         tags:
-            - { name: event.listener }
+            - { name: 'event.listener' }
