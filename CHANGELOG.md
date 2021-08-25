@@ -1,5 +1,10 @@
 ## Download limit Changelog
 
+### 1.0.5 - 2021-08-25
+
+- Code update.
+- Code cleanup.
+
 ### 1.0.4 - 2019-12-05
 
 - Code update for 3.3.x
